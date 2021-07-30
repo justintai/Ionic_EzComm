@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+username: String
 
 @Component({
   selector: 'app-tab3',
