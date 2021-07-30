@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-segment (ionChange)="segmentChanged($event)">
+  <ion-segment [(ngModel)]="type" (ionChange)="segmentChanged($event)" value="pending">
     <ion-segment-button value="pending">
       <ion-label>Pending</ion-label>
     </ion-segment-button>
@@ -24,5 +24,34 @@
       <ion-label>Cancelled</ion-label>
     </ion-segment-button>
   </ion-segment>
+
+  <div [ngSwitch]="type">
+    <ion-list *ngSwitchCase="'pending'">
+      <ion-item *ngFor="let item of [].constructor(20); let i = index">
+        <ion-thumbnail slot="start">
+          <img src="https://avatars.io/instagram/unknown">
+        </ion-thumbnail>
+        <h6>Deposit - {{ i }}</h6>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'completed'">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src="https://avatars.io/instagram/unknown">
+        </ion-thumbnail>
+        <h6>Loan 2</h6>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'cancelled'">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src="https://avatars.io/instagram/unknown">
+        </ion-thumbnail>
+        <h6>cancel</h6>
+      </ion-item>
+    </ion-list>
+  </div>
 
 </ion-content>
