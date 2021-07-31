@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add Items</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="item_save()"><ion-icon name="save"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Add Order</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -9,7 +15,7 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <div align="center">
+        <div align="center" class="pic-position">
           <ion-img
             [src]="'./assets/svg/add_photo.svg'"
             (click)="changeImage()">
@@ -52,10 +58,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <ion-button expand="block">
-    Save
-    <ion-ripple-effect></ion-ripple-effect>
-  </ion-button>
 
 </ion-content>

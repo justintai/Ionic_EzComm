@@ -13,6 +13,14 @@ const routes: Routes = [
   {
     path: 'about',
     loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'addorder',
+    loadChildren: () => import('./addorder/addorder.module').then( m => m.AddorderPageModule)
+  },
+  {
+    path: 'vieworder',
+    loadChildren: () => import('./vieworder/vieworder.module').then( m => m.VieworderPageModule)
   }
 ];
 @NgModule({
