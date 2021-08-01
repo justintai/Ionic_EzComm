@@ -1,3 +1,4 @@
+import { NodeWithI18n } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./additems.page.scss'],
 })
 export class AdditemsPage implements OnInit {
+
+  now = new Date();
+  today = this.now.toISOString();
 
   constructor() { }
 

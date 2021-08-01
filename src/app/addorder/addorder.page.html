@@ -57,7 +57,10 @@
       <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Order Date</ion-label>
-          <ion-datetime displayFormat="YYYY-MM-DD" min="2020-01-01" [(ngModel)]="order_date" ></ion-datetime>
+          <ion-datetime displayFormat="YYYY-MM-DD" 
+          min="2020-01-01" 
+          max="2100-01-01" 
+          [(ngModel)]="order_date" ></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col size="12">

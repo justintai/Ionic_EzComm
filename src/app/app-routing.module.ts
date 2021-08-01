@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'vieworder',
     loadChildren: () => import('./vieworder/vieworder.module').then( m => m.VieworderPageModule)
-  }
+  },
 ];
 @NgModule({
   imports: [
