@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.juststudio.ezcomm" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="SQLitePlugin">
+        <param name="android-package" value="io.sqlc.SQLitePlugin" />
+    </feature>
+    <allow-navigation href="http://localhost/*" />
+    <allow-navigation href="https://localhost/*" />
+    <allow-navigation href="ionic://*" />
+    <feature name="IonicWebView">
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    </feature>
+    <feature name="CDVIonicKeyboard">
+        <param name="android-package" onload="true" value="io.ionic.keyboard.CDVIonicKeyboard" />
+    </feature>
+    <feature name="HMSAccount">
+        <param name="android-package" value="com.huawei.hms.cordova.hwid.HMSAccount" />
+    </feature>
+    <feature name="HMSHuaweiIdAuthManager">
+        <param name="android-package" value="com.huawei.hms.cordova.hwid.HMSHuaweiIdAuthManager" />
+    </feature>
+    <feature name="HMSHuaweiIdAuthTool">
+        <param name="android-package" value="com.huawei.hms.cordova.hwid.HMSHuaweiIdAuthTool" />
+    </feature>
+    <feature name="HMSNetworkTool">
+        <param name="android-package" value="com.huawei.hms.cordova.hwid.HMSNetworkTool" />
+    </feature>
+    <feature name="HMSReadSMSManager">
+        <param name="android-package" value="com.huawei.hms.cordova.hwid.HMSReadSMSManager" />
+    </feature>
+    <feature name="HMSAccountAuthService">
+        <param name="android-package" value="com.huawei.hms.cordova.account.HMSAccountAuthService" />
+    </feature>
+    <feature name="HMSAccountAuthManager">
+        <param name="android-package" value="com.huawei.hms.cordova.account.HMSAccountAuthManager" />
+    </feature>
+    <name>EzComm</name>
+    <description>An awesome Ionic/Cordova app.</description>
+    <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
+        <application android:networkSecurityConfig="@xml/network_security_config" />
+    </edit-config>
+    <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
+    <allow-intent href="market:*" />
+    <icon background="resources/android/icon/ezcomm-background-ldpi.png" density="ldpi" foreground="resources/android/icon/ezcomm-foreground-ldpi.png" />
+    <icon background="resources/android/icon/ezcomm-background-mdpi.png" density="mdpi" foreground="resources/android/icon/ezcomm-foreground-mdpi.png" />
+    <icon background="resources/android/icon/ezcomm-background-hdpi.png" density="hdpi" foreground="resources/android/icon/ezcomm-foreground-hdpi.png" />
+    <icon background="resources/android/icon/ezcomm-background-xhdpi.png" density="xhdpi" foreground="resources/android/icon/ezcomm-foreground-xhdpi.png" />
+    <icon background="resources/android/icon/ezcomm-background-xxhdpi.png" density="xxhdpi" foreground="resources/android/icon/ezcomm-foreground-xxhdpi.png" />
+    <icon background="resources/android/icon/ezcomm-background-xxxhdpi.png" density="xxxhdpi" foreground="resources/android/icon/ezcomm-foreground-xxxhdpi.png" />
+    <splash density="land-ldpi" src="resources/android/splash/splashscreen-land-ldpi.png" />
+    <splash density="land-mdpi" src="resources/android/splash/splashscreen-land-mdpi.png" />
+    <splash density="land-hdpi" src="resources/android/splash/splashscreen-land-hdpi.png" />
+    <splash density="land-xhdpi" src="resources/android/splash/splashscreen-land-xhdpi.png" />
+    <splash density="land-xxhdpi" src="resources/android/splash/splashscreen-land-xxhdpi.png" />
+    <splash density="land-xxxhdpi" src="resources/android/splash/splashscreen-land-xxxhdpi.png" />
+    <splash density="port-ldpi" src="resources/android/splash/splashscreen-port-ldpi.png" />
+    <splash density="port-mdpi" src="resources/android/splash/splashscreen-port-mdpi.png" />
+    <splash density="port-hdpi" src="resources/android/splash/splashscreen-port-hdpi.png" />
+    <splash density="port-xhdpi" src="resources/android/splash/splashscreen-port-xhdpi.png" />
+    <splash density="port-xxhdpi" src="resources/android/splash/splashscreen-port-xxhdpi.png" />
+    <splash density="port-xxxhdpi" src="resources/android/splash/splashscreen-port-xxxhdpi.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
+    <preference name="ScrollEnabled" value="false" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="2000" />
+    <preference name="orientation" value="portrait" />
+</widget>
