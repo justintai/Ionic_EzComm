@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdditemsPageRoutingModule } from './additems-routing.module';
 
 import { AdditemsPage } from './additems.page';
+import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AdditemsPage } from './additems.page';
     IonicModule,
     AdditemsPageRoutingModule
   ],
-  declarations: [AdditemsPage]
+  declarations: [AdditemsPage],
+  providers: [Camera]
 })
 export class AdditemsPageModule {}

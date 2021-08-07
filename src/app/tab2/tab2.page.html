@@ -13,19 +13,23 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        ion-col
-      </ion-col>
-      <ion-col>
-        ion-col
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-list>
+    <ion-item *ngFor="let item of itemsList">
+      <ion-thumbnail slot="start" [routerLink]="['/additems', { mode: 2, id: item.id }]">
+        <img [src]="item.image">
+      </ion-thumbnail>
+      <div style="flex-direction: columm; width: 100%;" [routerLink]="['/additems', { mode: 2, id: item.items_id }]">
+        <h6>Name: {{item.name}}</h6>
+        <span>Price: {{item.price}} <br/>Stock: {{item.stock}}</span>
+      </div>
+      <ion-buttons slot="end">
+        <ion-button (click)="item_delete(item.items_id)"><ion-icon name="trash"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [routerLink]="['/additems']">
+    <ion-fab-button (click)="addItems()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

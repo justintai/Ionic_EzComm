@@ -33,35 +33,61 @@
 
   <div [ngSwitch]="type">
     <ion-list *ngSwitchCase="'pending'">
-      <ion-item *ngFor="let item of [].constructor(20); let i = index">
-        <ion-thumbnail slot="start">
-          <img src="https://avatars.io/instagram/unknown">
+      <ion-item *ngFor="let order of pending_order">
+        <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <img [src]="order.item_img">
         </ion-thumbnail>
-        <h6>Deposit - {{ i }}</h6>
+        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <h6>Item: {{order.item_name}}</h6>
+          <span>Cus: {{order.cus_name}} <br/>Tel: {{order.cus_tel}}</span>
+        </div>
+        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <h6>Qty: {{order.qty}}</h6>
+          <span>Amount: {{order.amount}}</span>
+        </div>
+        <ion-buttons slot="end">
+          <ion-button (click)="cancelOrder(order.order_id)"><ion-icon name="trash"></ion-icon></ion-button>
+        </ion-buttons>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'completed'">
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <img src="https://avatars.io/instagram/unknown">
+      <ion-item *ngFor="let order of complete_order">
+        <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <img [src]="order.item_img">
         </ion-thumbnail>
-        <h6>Loan 2</h6>
+        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <h6>Item: {{order.item_name}}</h6>
+          <span>Cus: {{order.cus_name}} <br/>Tel: {{order.cus_tel}}</span>
+        </div>
+        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <h6>Qty: {{order.qty}}</h6>
+          <span>Amount: {{order.amount}} <br/>Shipping No.: {{order.shipping_no}}</span>
+        </div>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'cancelled'">
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <img src="https://avatars.io/instagram/unknown">
+      <ion-item *ngFor="let order of cancel_order">
+        <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+          <img [src]="order.item_img">
         </ion-thumbnail>
-        <h6>cancel</h6>
+        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+          <h6>Item: {{order.item_name}}</h6>
+          <span>Cus: {{order.cus_name}} <br/>Tel: {{order.cus_tel}}</span>
+        </div>
+        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+          <span>Qty: {{order.qty}} <br/>Amount: {{order.amount}}</span>
+        </div>
+        <ion-buttons slot="end">
+          <ion-button (click)="undoOrder(order.order_id)"><ion-icon name="arrow-undo"></ion-icon></ion-button>
+        </ion-buttons>
       </ion-item>
     </ion-list>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [routerLink]="['/addorder']">
+    <ion-fab-button (click)="addOrder()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

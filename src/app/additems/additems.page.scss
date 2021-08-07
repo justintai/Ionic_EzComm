@@ -14,11 +14,12 @@ ion-img {
 }
 
 .input-border {
-    ion-textarea {
+    ion-input {
         border: rgb(212, 212, 212) 2px solid;
         border-radius: 15px;
-        padding-left: 15px;
-        padding-right: 15px;
+        --padding-start: 15px;
+        --padding-end: 15px;
+        margin-top: 2%;
     }
     
     ion-label {
@@ -31,13 +32,13 @@ ion-img {
 }
 
 .input-border:hover {
-    ion-textarea {
+    ion-input {
         border-color: rgb(73, 73, 73);
     }
 }
 
 .img_container:hover {
-    ion-textarea {
+    ion-input {
         border-color: rgb(73, 73, 73);
     }
 }

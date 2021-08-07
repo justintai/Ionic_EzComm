@@ -23,6 +23,15 @@
         padding-right: 15px;
         font-size: 15px;
     }
+
+    ion-input {
+        border: rgb(212, 212, 212) 2px solid;
+        border-radius: 15px;
+        margin-top: 2%;
+        --padding-start: 15px;
+        --padding-end: 15px;
+        font-size: 15px;
+    }
     
     ion-label {
         font-size: 22px;
@@ -41,7 +50,7 @@ ion-select, ion-datetime {
 }
 
 .input-border:hover {
-    ion-textarea, ion-datetime, ion-select {
+    ion-input, ion-textarea, ion-datetime, ion-select {
         border-color: rgb(73, 73, 73);
     }
 
