@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { AboutPageRoutingModule } from './about-routing.module';
-
 import { AboutPage } from './about.page';
 
 @NgModule({
@@ -15,6 +14,6 @@ import { AboutPage } from './about.page';
     IonicModule,
     AboutPageRoutingModule
   ],
-  declarations: [AboutPage]
+  declarations: [AboutPage],
 })
 export class AboutPageModule {}

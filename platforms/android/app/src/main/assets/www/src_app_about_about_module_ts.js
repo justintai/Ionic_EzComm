@@ -73,7 +73,7 @@ AboutPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
             _ionic_angular__WEBPACK_IMPORTED_MODULE_6__.IonicModule,
             _about_routing_module__WEBPACK_IMPORTED_MODULE_0__.AboutPageRoutingModule
         ],
-        declarations: [_about_page__WEBPACK_IMPORTED_MODULE_1__.AboutPage]
+        declarations: [_about_page__WEBPACK_IMPORTED_MODULE_1__.AboutPage],
     })
 ], AboutPageModule);
 
@@ -100,8 +100,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// import { AppVersion } from '@ionic-native/app-version';
 let AboutPage = class AboutPage {
-    constructor() { }
+    constructor() {
+        // version: any = this.appVerison.getVersionNumber();
+        this.versionNumber = "0.0.1";
+    }
     ngOnInit() {
     }
 };
@@ -144,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>About</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n  <ion-grid>\n    <ion-row>\n      <ion-col>\n        <div align=\"center\">\n          <ion-img [src]=\"'./assets/icon/ezcomm-icon.png'\">\n          </ion-img>\n        </div>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <div align=\"center\">\n          Version 1.0\n        </div>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n");
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("<ion-header>\n  <ion-toolbar>\n    <ion-buttons slot=\"start\" mode=\"ios\">\n      <ion-back-button></ion-back-button>\n    </ion-buttons>\n    <ion-title>About</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content>\n  \n  <ion-grid>\n    <ion-row>\n      <ion-col>\n        <div align=\"center\">\n          <ion-img [src]=\"'./assets/icon/ezcomm-icon.png'\">\n          </ion-img>\n        </div>\n      </ion-col>\n    </ion-row>\n    <ion-row>\n      <ion-col>\n        <div align=\"center\">\n          Version:&nbsp;{{versionNumber}}\n        </div>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n</ion-content>\n");
 
 /***/ })
 

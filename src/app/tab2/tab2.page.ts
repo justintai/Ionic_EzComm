@@ -25,7 +25,6 @@ export class Tab2Page {
 
   loadData() {
     this.db.getItems().subscribe((data) => {
-      console.log(data);
       this.itemsList = data;
     });
   }

@@ -27,26 +27,23 @@ export class Tab1Page implements OnInit {
   }
 
   loadData() {
-    this.db.buffOrders(2).then((data) => {
-      console.log(data);
-      this.pending_order = data;
-    });
-    this.db.buffOrders(1).then((data) => {
-      this.complete_order = data;
-    });
-    this.db.buffOrders(0).then((data) => {
-      this.cancel_order = data;
-    });
-    // this.db.getOrders().subscribe((data) => {
-    //   console.log(data);
-    //   this.pending_order = data;
-    // });
-    // this.db.getOrders().subscribe((data) => {
-    //   this.complete_order = data;
-    // });
-    // this.db.getOrders().subscribe((data) => {
-    //   this.cancel_order = data;
-    // });
+    this.db.getOrders().subscribe((data) => {
+      this.pending_order = data.filter((each) => {
+        if (each.status == 2) {
+          return each;
+        }
+      });
+      this.complete_order = data.filter((each) => {
+        if (each.status == 1) {
+          return each;
+        }
+      });
+      this.cancel_order = data.filter((each) => {
+        if (each.status == 0) {
+          return each;
+        }
+      });
+    })
   }
 
   segmentChanged(ev: any) {
@@ -57,7 +54,8 @@ export class Tab1Page implements OnInit {
     this.router.navigate(["/addorder", { mode: 1}]);
   }
 
-  async cancelOrder(id) {
+  async cancelOrder(id, item_id, stock, qty) {
+    stock = stock + qty;
     const alert = await this.alertController.create({
       header: "Alert",
       message: "Are you sure to cancel this order?",
@@ -69,7 +67,7 @@ export class Tab1Page implements OnInit {
         {
           text: 'Ok',
           handler: () => {
-            this.db.updateStatus(id, 0);
+            this.db.updateStatus(id, 0, item_id, stock);
           }
         }
       ]
@@ -77,7 +75,8 @@ export class Tab1Page implements OnInit {
     await alert.present();
   }
 
-  async undoOrder(id) {
+  async undoOrder(id, item_id, stock, qty) {
+    stock = stock - qty;
     const alert = await this.alertController.create({
       header: "Alert",
       message: "Are you sure to revert this order?",
@@ -89,7 +88,7 @@ export class Tab1Page implements OnInit {
         {
           text: 'Ok',
           handler: () => {
-            this.db.updateStatus(id, 2);
+            this.db.updateStatus(id, 2, item_id, stock);
           }
         }
       ]

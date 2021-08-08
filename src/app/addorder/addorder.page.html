@@ -1,12 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" mode="ios">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button *ngIf="mode == '2'" (click)="order_edit()"><ion-icon name="create"></ion-icon></ion-button>
       <ion-button *ngIf="mode == '1' || mode == '3'" (click)="order_save()"><ion-icon name="save"></ion-icon></ion-button>
-      <ion-button *ngIf="mode == '4'" (click)="order_undo()"><ion-icon name="arrow-undo"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>{{page_title}}</ion-title>
   </ion-toolbar>
@@ -24,8 +23,12 @@
       <ion-col size="9">
         <ion-list>
           <ion-item lines="none" class="input-border">
-            <ion-label position="stacked">Item Name*</ion-label>
-            <ion-select value="item" interface="action-sheet" (ionChange)="selectItem($event)" #itemSelection>
+            <ion-label position="stacked">Item*</ion-label>
+            <ion-select value="{{item_id}}"
+              interface="action-sheet"
+              (ionChange)="selectItem($event)"
+              #itemSelection
+              [disabled]="mode == '2' || mode == '4'">
               <ion-select-option value="{{item.items_id}}" *ngFor="let item of itemsList">{{item.name}}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -63,7 +66,9 @@
           <ion-datetime displayFormat="YYYY-MM-DD" 
           min="2020-01-01" 
           max="2100-01-01" 
-          [(ngModel)]="order_date" (click)="calculate()"></ion-datetime>
+          [(ngModel)]="order_date"
+          (click)="calculate()"
+          [readonly]="mode == '2' || mode == '4'"></ion-datetime>
         </ion-item>
       </ion-col>
       <ion-col size="12">
@@ -91,7 +96,7 @@
         </ion-item>
       </ion-col>
 
-      <ion-col size="1" class="scan-btn">
+      <ion-col size="1" class="scan-btn" [hidden]="mode == '2' || mode == '4'">
         <ion-img [src]="'./assets/svg/scan.svg'" (click)="scanAddress()"></ion-img>
       </ion-col>
 
@@ -102,7 +107,7 @@
         </ion-item>
       </ion-col>
 
-      <ion-col size="1" class="scan-btn">
+      <ion-col size="1" class="scan-btn" [hidden]="mode == '2' || mode == '4'">
         <ion-img [src]="'./assets/svg/scan.svg'" (click)="scanBarCode()"></ion-img>
       </ion-col>
       

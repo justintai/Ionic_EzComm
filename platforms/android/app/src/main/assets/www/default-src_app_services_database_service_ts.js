@@ -118,12 +118,10 @@ let DatabaseService = class DatabaseService {
         });
     }
     addItems(itemobj) {
-        console.log("itemobj");
         let data = [itemobj.name, itemobj.price, itemobj.stock, itemobj.min_purc, itemobj.promo, itemobj.img, itemobj.date];
         return this.database
             .executeSql('INSERT INTO items (name, price, stock, min_purc, promo_price, image, created_date) VALUES (?, ?, ?, ?, ?, ?, ?)', data)
             .then((data) => {
-            console.log(data);
             this.loadItems();
             return (data);
         })
@@ -145,34 +143,9 @@ let DatabaseService = class DatabaseService {
     }
     // Order database
     loadOrders() {
-        return this.database.executeSql('SELECT o.*, i.name, i.stock, i.price, i.min_purc, i.promo_price, i.image FROM orders o LEFT JOIN items i ON i.items_id = o.items_id', [])
+        return this.database.executeSql('SELECT o.*, i.items_id, i.name, i.stock, i.price, i.min_purc, i.promo_price, i.image FROM orders o LEFT JOIN items i ON i.items_id = o.items_id ORDER BY o.order_date DESC', [])
             .then((data) => {
             let order = [];
-            if (data.rows.length > 0) {
-                for (var i = 0; i < data.rows.length; i++) {
-                    order.push({
-                        order_id: data.rows.item(i).order_id,
-                        items_id: data.rows.item(i).items_id,
-                        qty: data.rows.item(i).qty,
-                        amount: data.rows.item(i).amount,
-                        cus_name: data.rows.item(i).cus_name,
-                        cus_tel: data.rows.item(i).cus_tel,
-                        cus_address: data.rows.item(i).cus_address,
-                        shipping_no: data.rows.item(i).shipping_no,
-                        order_date: data.rows.item(i).order_date,
-                        status: data.rows.item(i).status,
-                    });
-                }
-            }
-            this.order.next(order);
-        });
-    }
-    buffOrders(status) {
-        return this.database
-            .executeSql("SELECT o.*, i.name, i.stock, i.price, i.min_purc, i.promo_price, i.image FROM orders o WHERE o.status = ? LEFT JOIN items i ON i.items_id = o.items_id", [status])
-            .then((data) => {
-            let order = [];
-            console.log("service ", data);
             if (data.rows.length > 0) {
                 for (var i = 0; i < data.rows.length; i++) {
                     order.push({
@@ -195,11 +168,50 @@ let DatabaseService = class DatabaseService {
                     });
                 }
             }
-            return order;
+            this.order.next(order);
         });
     }
+    // buffOrder(status): Promise<any> {
+    //   let order = [];
+    //   return this.database.executeSql(
+    //       "SELECT o.*, i.name, i.stock, i.price, i.min_purc, i.promo_price, i.image FROM orders o WHERE o.status = ? LEFT JOIN items i ON i.items_id = o.items_id", 
+    //     [status])
+    //     .then((data) => {
+    //       if (data == null) {
+    //         return {
+    //           order_id: 0,
+    //         };
+    //       }
+    //       else{
+    //         if(data.rows.length > 0) {
+    //           for (var i=0; i<data.rows.length; i++) {
+    //             order.push({
+    //               order_id: data.rows.item(i).order_id,
+    //               items_id: data.rows.item(i).items_id,
+    //               qty: data.rows.item(i).qty,
+    //               amount: data.rows.item(i).amount,
+    //               cus_name: data.rows.item(i).cus_name,
+    //               cus_tel: data.rows.item(i).cus_tel,
+    //               cus_address: data.rows.item(i).cus_address,
+    //               shipping_no: data.rows.item(i).shipping_no,
+    //               order_date: data.rows.item(i).order_date,
+    //               status: data.rows.item(i).status,
+    //               item_name: data.rows.item(i).name,
+    //               item_stock: data.rows.item(i).stock,
+    //               item_price: data.rows.item(i).price,
+    //               item_min: data.rows.item(i).min_purc,
+    //               item_promo: data.rows.item(i).promo_price,
+    //               item_img: data.rows.item(i).image,
+    //             });
+    //           }
+    //         }
+    //         this.order.next(order);
+    //       }
+    //       return order;
+    //     });
+    // }
     getOrder(id) {
-        return this.database.executeSql("SELECT o.*, i.name, i.stock, i.price, i.min_purc, i.promo_price, i.image FROM orders o WHERE o.order_id = ? LEFT JOIN items i ON i.items_id = o.items_id", [id])
+        return this.database.executeSql('SELECT o.*, i.items_id, i.name, i.stock, i.price, i.min_purc, i.promo_price, i.image FROM orders o LEFT JOIN items i ON i.items_id = o.items_id WHERE o.order_id = ?', [id])
             .then((data) => {
             if (data == null) {
                 return {
@@ -226,11 +238,20 @@ let DatabaseService = class DatabaseService {
             };
         });
     }
-    updateStatus(id, status) {
+    updateStatus(id, status, item_id, stock) {
         return this.database
-            .executeSql("UPDATE orders SET status = ? WHERE items_id = ?", [status, id])
+            .executeSql("UPDATE orders SET status = ? WHERE order_id = ?", [status, id])
             .then((_) => {
+            this.updateItemsStock(item_id, stock);
             this.loadOrders();
+        });
+    }
+    // update item stock from the 1st tab (pending & revert order)
+    updateItemsStock(id, stock) {
+        return this.database
+            .executeSql("UPDATE items SET stock = ? WHERE items_id = ?", [stock, id])
+            .then((_) => {
+            this.loadItems();
         });
     }
     addOrder(orderobj, dumpdata) {
@@ -252,6 +273,42 @@ let DatabaseService = class DatabaseService {
     }
     updateStock(dumpdata) {
         console.log(dumpdata);
+        if (dumpdata.length == 1) {
+            console.log("New");
+            return this.database
+                .executeSql(`UPDATE items SET stock = (stock - ${dumpdata[0].qty}) WHERE items_id = ?`, [dumpdata[0].item_id])
+                .then((_) => {
+                console.log("New Success");
+                this.loadItems();
+            })
+                .catch((e) => {
+                console.log("Add", e);
+                return "Error in Add New Item" + JSON.stringify(e);
+            });
+        }
+        else if (dumpdata.length == 2) {
+            console.log("Edit");
+            return this.database
+                .executeSql(`UPDATE items SET stock = (stock + ${dumpdata[0].qty}) WHERE items_id = ?`, [dumpdata[0].item_id])
+                .then((_) => {
+                this.renewStock(dumpdata[1].item_id, dumpdata[1].qty);
+                console.log("Edit Success");
+                this.loadItems();
+            })
+                .catch((e) => {
+                console.log("Edit", e);
+                return "Error in Edit" + JSON.stringify(e);
+            });
+        }
+    }
+    renewStock(id, qty) {
+        console.log(id, qty);
+        return this.database
+            .executeSql(`UPDATE items SET stock = (stock - ${qty}) WHERE items_id = ?`, [id])
+            .then((_) => {
+            console.log("Extension Success");
+            this.loadItems();
+        });
     }
     updateOrder(orderobj, dumpdata) {
         if (dumpdata.length != 0 || dumpdata.length != null) {

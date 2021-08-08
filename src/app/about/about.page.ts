@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import { AppVersion } from '@ionic-native/app-version';
 
 @Component({
   selector: 'app-about',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutPage implements OnInit {
 
+  // version: any = this.appVerison.getVersionNumber();
+  versionNumber: string = "0.0.1";
   constructor() { }
 
   ngOnInit() {

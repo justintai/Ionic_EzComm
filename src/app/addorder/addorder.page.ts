@@ -3,6 +3,8 @@ import { DatabaseService } from '../services/database.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, Platform, ToastController } from '@ionic/angular';
+import { HMSScan, ScanTypes, Colors, ErrorCorrectionLevel, HMSPermission } from '@hmscore/ionic-native-hms-scan/ngx'
+import { time } from 'console';
 
 @Component({
   selector: 'app-addorder',
@@ -18,7 +20,7 @@ export class AddorderPage implements OnInit {
   title = {
     "1": "Add Order",
     "2": "Order Details",
-    "3": "Edit Item",
+    "3": "Edit Order",
     "4": "Cancelled Order"
   }
 
@@ -38,13 +40,17 @@ export class AddorderPage implements OnInit {
   qty: number = null;
   amount: number = null;
   cus_name: string;
-  cus_tel: number;
+  cus_tel: string;
   cus_address: string;
-  shipping_no: string;
+  shipping_no: string = null;
   order_date = this.db.getDate();
   status: number = 2;
+  newstatus: number;
   itemsList = [];
   dumpdata = [];
+
+  cameraPerm: boolean = false;
+  storagePerm: boolean = false;
 
   constructor(
     private db: DatabaseService,
@@ -52,19 +58,10 @@ export class AddorderPage implements OnInit {
     private actionSheetController: ActionSheetController,
     private toastController: ToastController,
     private platform: Platform,
-    private router: Router
+    private router: Router,
+    private hmsScanKit: HMSScan
     ) { 
       this.page_title = this.title[this.mode];
-
-      this.db.updateItemEvent.subscribe((data) => {
-        this.loadData();
-      });
-      this.loadData();
-
-      this.db.updateItemEvent.subscribe((data) => {
-        this.loadingOrder();
-      });
-      this.loadingOrder();
   }
 
   ngOnInit() {
@@ -74,6 +71,8 @@ export class AddorderPage implements OnInit {
         this.orders = this.db.getOrders();
       }
     });
+
+    this.loadData();
 
     if(this.mode == '2' || this.mode == '3' || this.mode == '4')
     {
@@ -101,22 +100,15 @@ export class AddorderPage implements OnInit {
       })
     }
   }
-
+//#region
   loadData() {
     this.db.getItems().subscribe((data) => {
       this.itemsList = data;
     })
   }
 
-  loadingOrder() {
-    this.db.getOrders().subscribe((data) => {
-      console.log(data);
-    })
-  }
-
   selectItem($event) {
     this.item_id = $event.target.value;
-    console.log(this.item_id);
 
     this.db.getItem(this.item_id).then((data) => {
       this.item_name = data["name"];
@@ -132,9 +124,15 @@ export class AddorderPage implements OnInit {
     if(this.qty !=null) {
       let price = 0;
 
-      if(this.qty >= this.item_min)
+      if(this.item_min != null)
       {
-        price = this.item_promo;
+        if(this.qty >= this.item_min)
+        {
+          price = this.item_promo;
+        }
+        else{
+          price = this.item_price;
+        }
       }
       else{
         price = this.item_price;
@@ -185,16 +183,28 @@ export class AddorderPage implements OnInit {
       return false;
     }
 
-    if(this.shipping_no != null) {
-      this.status = 1;
+    if(this.shipping_no == null || this.shipping_no == '') {
+      this.newstatus = 2;
+    }
+    else{
+      this.newstatus = 1;
+    }
+
+    if(this.qty != null) {
+      if(this.item_stock < this.qty)
+      {
+        let toast = await this.toastController.create({
+          mode: "ios",
+          message: "Purchase quantity cannot more than stock.",
+          duration: 1000,
+        });
+        await toast.present();
+        return false;
+      }
     }
 
     if(this.mode == '1') {
       this.calculate();
-
-      if(this.shipping_no != null || this.shipping_no != '') {
-        this.status = 1;
-      }
 
       let orderObj = {
         items_id: this.item_id,
@@ -205,7 +215,7 @@ export class AddorderPage implements OnInit {
         cus_address: this.cus_address,
         shipping_no: this.shipping_no,
         order_date: this.order_date,
-        status: this.status
+        status: this.newstatus
       }
 
       this.dumpdata.push({
@@ -222,11 +232,8 @@ export class AddorderPage implements OnInit {
     else if(this.mode == '3') {
       this.calculate();
 
-      if(this.shipping_no != null || this.shipping_no != '') {
-        this.status = 1;
-      }
-
       let orderObj = {
+        id: this.id,
         items_id: this.item_id,
         qty: this.qty,
         amount: this.amount,
@@ -235,7 +242,7 @@ export class AddorderPage implements OnInit {
         cus_address: this.cus_address,
         shipping_no: this.shipping_no,
         order_date: this.order_date,
-        status: this.status,
+        status: this.newstatus,
       }
 
       this.dumpdata.push({
@@ -259,7 +266,9 @@ export class AddorderPage implements OnInit {
   order_undo() {
     this.status = 2;
     let orderObj = {
+      id: this.item_id,
       items_id: this.item_id,
+      stock: this.item_stock + this.qty,
       qty: this.qty,
       amount: this.amount,
       cus_name: this.cus_name,
@@ -270,18 +279,91 @@ export class AddorderPage implements OnInit {
       status: this.status,
     }
 
-    this.db.updateOrder(orderObj, 0).then((data) => {
+    this.db.updateStatus(orderObj.id, orderObj.status, orderObj.items_id, orderObj.stock).then((data) => {
       this.router.navigate(["/tabs/tab1"], { replaceUrl: true });
     })
     .catch((e) => {
       return "Error" + JSON.stringify(e);
     });
   }
+  //#endregion
 
   scanAddress() {
   }
 
-  scanBarCode() {
+  async scanBarCode() {
+    const permit = await this.checkPermission(0);
+
+    if(permit)
+    {
+      this.defaultViewMode();
+    }
+  }
+
+  async checkPermission(times) {
+    try {
+      const camRes = await this.hmsScanKit.hasPermission(HMSPermission.CAMERA);
+      const stoRes = await this.hmsScanKit.hasPermission(HMSPermission.READ_EXTERNAL_STORAGE);
+      let count = 0;
+  
+      if(times == 0) {
+        if(!camRes) {
+          this.hmsScanKit.requestPermission(HMSPermission.CAMERA);
+        }
+  
+        if(!stoRes) {
+          this.hmsScanKit.requestPermission(HMSPermission.READ_EXTERNAL_STORAGE);
+        }
+      }
+
+      if(camRes && stoRes) {
+        count = 2;
+        times = 1;
+      }
+      else if((camRes && !stoRes) || (!camRes && stoRes)) {
+        count = 1;
+      }
+      else {
+        count = 0;
+      }
+      
+      if(times == 0 && count == 0) {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(true), 3000)
+        })
+      }
+      else if(times == 0 && count == 1) {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(true), 1500)
+        })
+      }
+      else {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(true), 50)
+        })
+      }
+    }
+    catch(e) {
+      console.error(JSON.stringify(e));
+      return false;
+    }
+    
+  }
+
+  public async defaultViewMode() {
+    const permit = await this.checkPermission(1);
+
+    if(permit) {
+      const scanTypes = [ScanTypes.ALL_SCAN_TYPE];
+      this.hmsScanKit
+        .defaultViewMode(scanTypes)
+        .then((res) => {
+          this.shipping_no = res.originalValue;
+        })
+        .catch((err) => {
+          console.log('Scan Code Error: ', err);
+        });
+    }
   }
 
 }

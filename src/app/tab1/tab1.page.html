@@ -13,74 +13,125 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-segment [(ngModel)]="type" (ionChange)="segmentChanged($event)" value="pending">
+  <ion-segment [(ngModel)]="type" value="pending">
     <ion-segment-button value="pending">
       <ion-label>Pending
-        <ion-badge slot="end">22</ion-badge>
+        <ion-badge align="center" slot="end">{{pending_order.length}}</ion-badge>
       </ion-label>
     </ion-segment-button>
     <ion-segment-button value="completed">
       <ion-label>Completed
-        <ion-badge color="success" slot="end">22</ion-badge>
+        <ion-badge align="center" color="success" slot="end">{{complete_order.length}}</ion-badge>
       </ion-label>
     </ion-segment-button>
     <ion-segment-button value="cancelled">
       <ion-label>Cancelled
-        <ion-badge color="danger" slot="end">22</ion-badge>
+        <ion-badge align="center" color="danger" slot="end">{{cancel_order.length}}</ion-badge>
       </ion-label>
     </ion-segment-button>
   </ion-segment>
 
   <div [ngSwitch]="type">
     <ion-list *ngSwitchCase="'pending'">
+      <div align="center" class="text_css" *ngIf="pending_order.length==0">
+        <h1>No contents</h1>
+      </div>
       <ion-item *ngFor="let order of pending_order">
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
-        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+        <div style="flex-direction: columm; width: 60%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <h6>Item: {{order.item_name}}</h6>
-          <span>Cus: {{order.cus_name}} <br/>Tel: {{order.cus_tel}}</span>
+          <span>Customer:<br/>
+            <i>&nbsp;{{order.cus_name}}</i><br/>
+            Tel:<br/>
+            <i>&nbsp;{{order.cus_tel}}</i>
+          </span>
         </div>
-        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
-          <h6>Qty: {{order.qty}}</h6>
-          <span>Amount: {{order.amount}}</span>
+        <div style="flex-direction: columm; width: 45%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <h6><br/></h6>
+          <span>Qty:<br/>
+            <i>&nbsp;{{order.qty}}</i><br/>
+            Amount:<br/>
+            <i>&nbsp;{{order.amount}}</i>
+          </span>
         </div>
         <ion-buttons slot="end">
-          <ion-button (click)="cancelOrder(order.order_id)"><ion-icon name="trash"></ion-icon></ion-button>
+          <ion-button (click)="cancelOrder(order.order_id, order.items_id, order.item_stock, order.qty)"><ion-icon name="trash"></ion-icon></ion-button>
         </ion-buttons>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'completed'">
+      <div align="center" class="text_css" *ngIf="complete_order.length==0">
+        <h1>No contents</h1>
+      </div>
       <ion-item *ngFor="let order of complete_order">
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
-        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
-          <h6>Item: {{order.item_name}}</h6>
-          <span>Cus: {{order.cus_name}} <br/>Tel: {{order.cus_tel}}</span>
-        </div>
-        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
-          <h6>Qty: {{order.qty}}</h6>
-          <span>Amount: {{order.amount}} <br/>Shipping No.: {{order.shipping_no}}</span>
-        </div>
+        <ion-grid [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+          <ion-row>
+            <ion-col>
+              <div>
+                <h6>Item: {{order.item_name}}</h6>
+                <span>Cus:<br/>
+                  <i>&nbsp;{{order.cus_name}}</i><br/>
+                  Tel:<br/>
+                  <i>&nbsp;{{order.cus_tel}}</i>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col>
+              <div>
+                <h6><br></h6>
+                <span>Qty:<br/>
+                  <i>&nbsp;{{order.qty}}</i><br/>
+                  Amount:<br/>
+                  <i>&nbsp;{{order.amount}}</i>
+                </span>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <div>
+                <span>Track No:
+                  <i>&nbsp;{{order.shipping_no}}</i>
+                </span>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'cancelled'">
+      <div align="center" class="text_css" *ngIf="cancel_order.length==0">
+        <h1>No contents</h1>
+      </div>
       <ion-item *ngFor="let order of cancel_order">
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
-        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+        <div style="flex-direction: columm; width: 60%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
           <h6>Item: {{order.item_name}}</h6>
-          <span>Cus: {{order.cus_name}} <br/>Tel: {{order.cus_tel}}</span>
+          <span>Customer:<br/>
+            <i>&nbsp;{{order.cus_name}}</i><br/>
+            Tel:<br/>
+            <i>&nbsp;{{order.cus_tel}}</i>
+          </span>
         </div>
-        <div style="flex-direction: columm; width: 50%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
-          <span>Qty: {{order.qty}} <br/>Amount: {{order.amount}}</span>
+        <div style="flex-direction: columm; width: 45%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+          <h6><br/></h6>
+          <span>Qty:<br/>
+            <i>&nbsp;{{order.qty}}</i><br/>
+            Amount:<br/>
+            <i>&nbsp;{{order.amount}}</i>
+          </span>
         </div>
         <ion-buttons slot="end">
-          <ion-button (click)="undoOrder(order.order_id)"><ion-icon name="arrow-undo"></ion-icon></ion-button>
+          <ion-button (click)="undoOrder(order.order_id, order.items_id, order.item_stock, order.qty)"><ion-icon name="arrow-undo"></ion-icon></ion-button>
         </ion-buttons>
       </ion-item>
     </ion-list>

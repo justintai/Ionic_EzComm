@@ -144,6 +144,7 @@ ext {
 
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "../cordova-plugin-hms-account/ezcomm-build-extras.gradle"
+apply from: "../cordova-plugin-hms-scan/ezcomm-build-extras.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -379,6 +380,8 @@ dependencies {
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "com.huawei.hms:hwid:5.2.0.300"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "com.huawei.hms:scan:1.3.1.300"
+    implementation "com.huawei.hms:stats:5.0.3.301"
     // SUB-PROJECT DEPENDENCIES END
 }
 

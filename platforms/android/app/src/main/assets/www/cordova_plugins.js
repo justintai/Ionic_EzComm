@@ -164,6 +164,53 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "cordova.plugins.sqlitePorter"
       ]
+    },
+    {
+      "id": "cordova-plugin-app-version.AppVersionPlugin",
+      "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+      "pluginId": "cordova-plugin-app-version",
+      "clobbers": [
+        "cordova.getAppVersion"
+      ]
+    },
+    {
+      "id": "cordova-plugin-hms-scan.HMSScan",
+      "file": "plugins/cordova-plugin-hms-scan/www/HMSScan.js",
+      "pluginId": "cordova-plugin-hms-scan",
+      "clobbers": [
+        "HMSScan"
+      ]
+    },
+    {
+      "id": "cordova-plugin-hms-scan.CustomView",
+      "file": "plugins/cordova-plugin-hms-scan/www/CustomView.js",
+      "pluginId": "cordova-plugin-hms-scan",
+      "clobbers": [
+        "CustomView"
+      ]
+    },
+    {
+      "id": "cordova-plugin-hms-scan.MultiProcessor",
+      "file": "plugins/cordova-plugin-hms-scan/www/MultiProcessor.js",
+      "pluginId": "cordova-plugin-hms-scan",
+      "clobbers": [
+        "MultiProcessor"
+      ]
+    },
+    {
+      "id": "cordova-plugin-hms-scan.interfaces",
+      "file": "plugins/cordova-plugin-hms-scan/www/interfaces.js",
+      "pluginId": "cordova-plugin-hms-scan"
+    },
+    {
+      "id": "cordova-plugin-hms-scan.index",
+      "file": "plugins/cordova-plugin-hms-scan/www/index.js",
+      "pluginId": "cordova-plugin-hms-scan"
+    },
+    {
+      "id": "cordova-plugin-hms-scan.util",
+      "file": "plugins/cordova-plugin-hms-scan/www/util.js",
+      "pluginId": "cordova-plugin-hms-scan"
     }
   ];
   module.exports.metadata = {
@@ -177,6 +224,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-hms-account": "5.2.0-300",
     "cordova-plugin-camera": "5.0.2",
     "cordova-sqlite-storage": "6.0.0",
-    "uk.co.workingedge.cordova.plugin.sqliteporter": "1.1.1"
+    "uk.co.workingedge.cordova.plugin.sqliteporter": "1.1.1",
+    "cordova-plugin-app-version": "0.1.12",
+    "cordova-plugin-hms-scan": "1.3.1-301"
   };
 });
