@@ -104,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
 let AboutPage = class AboutPage {
     constructor() {
         // version: any = this.appVerison.getVersionNumber();
-        this.versionNumber = "0.0.1";
+        this.versionNumber = "1.0.0";
     }
     ngOnInit() {
     }

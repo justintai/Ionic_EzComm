@@ -25,6 +25,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
+classpath 'com.huawei.agconnect:agcp:1.4.2.301' //This line is added by site plugin
+classpath 'com.huawei.agconnect:agcp:1.4.2.301' //This line is added by cordova-plugin-hms-map plugin
         classpath 'com.huawei.agconnect:agcp:1.4.2.301' //This line is added by scan plugin
         classpath 'com.huawei.agconnect:agcp:1.5.2.300' //This line is added by cordova-plugin-hms-account plugin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

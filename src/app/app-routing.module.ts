@@ -22,6 +22,10 @@ const routes: Routes = [
     path: 'vieworder',
     loadChildren: () => import('./vieworder/vieworder.module').then( m => m.VieworderPageModule)
   },
+  {
+    path: 'maps',
+    loadChildren: () => import('./maps/maps.module').then( m => m.MapsPageModule)
+  },
 ];
 @NgModule({
   imports: [

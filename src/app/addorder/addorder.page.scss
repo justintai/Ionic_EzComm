@@ -75,3 +75,14 @@ ion-image {
     max-height: 5px;
     }
 }
+
+ion-content {
+    background-color: transparent;
+    --ion-background-color: transparent;
+}
+
+#map-view {
+    width: 80%;
+    height: 500px;
+    padding: 15px;
+}

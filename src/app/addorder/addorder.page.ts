@@ -3,8 +3,17 @@ import { DatabaseService } from '../services/database.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController, Platform, ToastController } from '@ionic/angular';
-import { HMSScan, ScanTypes, Colors, ErrorCorrectionLevel, HMSPermission } from '@hmscore/ionic-native-hms-scan/ngx'
-import { time } from 'console';
+import { HMSScan, ScanTypes, Colors, ErrorCorrectionLevel, HMSPermission } from '@hmscore/ionic-native-hms-scan/ngx';
+import { 
+  HMSSite, SearchService, SearchServiceFactory,
+  TextSearchRequest, TextSearchResponse,
+  NearbySearchRequest, NearbySearchResponse,
+  DetailSearchRequest, DetailSearchResponse,
+  QueryAutocompleteRequest, QueryAutocompleteResponse,
+  QuerySuggestionRequest, QuerySuggestionResponse,
+  SearchFilter, LocationType, HwLocationType
+} from '@hmscore/ionic-native-hms-site/ngx';
+import { HMSMap, CameraUpdateFactory, Color } from '@hmscore/ionic-native-hms-map/ngx';
 
 @Component({
   selector: 'app-addorder',
@@ -52,6 +61,12 @@ export class AddorderPage implements OnInit {
   cameraPerm: boolean = false;
   storagePerm: boolean = false;
 
+  private searchService: SearchService = null;
+  private readonly apiKey = "CgB6e3x991tj6QIY2ZM0aWY9crhqEPGLCnMwH4t9LNVXgmMSQQEDTKJNGH2woZCd10QSp1425eSqpfmK3QMpOLL1";
+  mapInstance: any;
+  iniLat:any = 1.7327292;
+  iniLng:any = 103.7006713;
+
   constructor(
     private db: DatabaseService,
     private route: ActivatedRoute, 
@@ -59,10 +74,18 @@ export class AddorderPage implements OnInit {
     private toastController: ToastController,
     private platform: Platform,
     private router: Router,
-    private hmsScanKit: HMSScan
-    ) { 
+    private hmsScanKit: HMSScan,
+    private hmsSite: HMSSite,
+    private hmsMap: HMSMap) 
+    { 
       this.page_title = this.title[this.mode];
-  }
+
+      SearchServiceFactory.create(this.apiKey)
+      .then(service => this.searchService = service)
+      .catch(err => console.log('An error occurred.'));
+
+      this.createMap();
+    }
 
   ngOnInit() {
     this.db.getDatabaseState().subscribe(rdy => {
@@ -97,10 +120,12 @@ export class AddorderPage implements OnInit {
             item_id: data["items_id"],
             qty: data["qty"]
           });
-      })
+      });
+      // this.locationSearch();
     }
   }
-//#region
+  
+  //#region
   loadData() {
     this.db.getItems().subscribe((data) => {
       this.itemsList = data;
@@ -287,12 +312,10 @@ export class AddorderPage implements OnInit {
     });
   }
   //#endregion
-
-  scanAddress() {
-  }
-
+  
+  // #region Scan Barcode
   async scanBarCode() {
-    const permit = await this.checkPermission(0);
+    const permit = await this.checkScanPermission(0);
 
     if(permit)
     {
@@ -300,7 +323,7 @@ export class AddorderPage implements OnInit {
     }
   }
 
-  async checkPermission(times) {
+  async checkScanPermission(times) {
     try {
       const camRes = await this.hmsScanKit.hasPermission(HMSPermission.CAMERA);
       const stoRes = await this.hmsScanKit.hasPermission(HMSPermission.READ_EXTERNAL_STORAGE);
@@ -351,7 +374,7 @@ export class AddorderPage implements OnInit {
   }
 
   public async defaultViewMode() {
-    const permit = await this.checkPermission(1);
+    const permit = await this.checkScanPermission(1);
 
     if(permit) {
       const scanTypes = [ScanTypes.ALL_SCAN_TYPE];
@@ -365,5 +388,55 @@ export class AddorderPage implements OnInit {
         });
     }
   }
+  // #endregion scan barcode
 
+  async createMap() {
+    this.mapInstance = await this.hmsMap.getMap('map-view', {
+      zoomGesturesEnabled: true,
+      zoomControlsEnabled: true,
+      cameraPosition: {
+          target: {lat: this.iniLat, lng: this.iniLng},
+          zoom: 7
+      }
+    });
+  }
+
+  async locationSearch() {
+    console.log("text");
+    const textSearchReq: TextSearchRequest = {
+      children: false,
+      query: this.cus_address,
+      location: {
+        lat: this.iniLat,
+        lng: this.iniLng,
+      },
+      radius: 50000,
+      poiType: LocationType.ADDRESS,
+      hwPoiType: HwLocationType.ADDRESS,
+      countryCode: "MY",
+      language: "en",
+      pageIndex: 1,
+      pageSize: 5
+    };
+
+    try {
+      const response: TextSearchResponse = await this.searchService.textSearch(textSearchReq);
+
+      let sites: any = JSON.stringify(JSON.parse(JSON.stringify(response)).sites);
+
+      if(Object.keys(sites).length != 0) {
+        let cameraLocation =  JSON.parse(sites)[0].location;
+ 
+        await this.mapInstance.moveCamera(CameraUpdateFactory.newCameraPosition({
+          target: {lat: cameraLocation.lat, lng: cameraLocation.lng}, zoom: 20}));
+        
+        let location =  JSON.parse(sites)[0].location;
+        await this.mapInstance.addMarker({position: {lat: location.lat, lng : location.lng}});
+      
+      }
+    }
+    catch(e) {
+      console.error('error : ' +JSON.stringify(e));
+    }
+  }
 }

@@ -50,6 +50,9 @@
           <ion-input readonly [(ngModel)]="item_price" type="number"></ion-input>
         </ion-item>
       </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Qty*</ion-label>
@@ -60,6 +63,9 @@
           </ion-input>
         </ion-item>
       </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Order Date</ion-label>
@@ -71,46 +77,60 @@
           [readonly]="mode == '2' || mode == '4'"></ion-datetime>
         </ion-item>
       </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Amount</ion-label>
           <ion-input readonly [(ngModel)]="amount" type="number"></ion-input>
         </ion-item>
       </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Customer Name*</ion-label>
           <ion-input [readonly]="mode == '2' || mode == '4'" [(ngModel)]="cus_name" (click)="calculate()"></ion-input>
         </ion-item>
       </ion-col>
+    </ion-row>
+
+    <ion-row>
       <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Tel.*</ion-label>
           <ion-input [readonly]="mode == '2' || mode == '4'" [(ngModel)]="cus_tel" type="number" (click)="calculate()"></ion-input>
         </ion-item>
       </ion-col>
-      <ion-col size="11">
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Address</ion-label>
           <ion-textarea rows="3" [readonly]="mode == '2' || mode == '4'" [(ngModel)]="cus_address" (click)="calculate()"></ion-textarea>
         </ion-item>
       </ion-col>
+    </ion-row>
 
-      <ion-col size="1" class="scan-btn" [hidden]="mode == '2' || mode == '4'">
-        <ion-img [src]="'./assets/svg/scan.svg'" (click)="scanAddress()"></ion-img>
-      </ion-col>
-
+    <ion-row>
       <ion-col size="11">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Shipping No.</ion-label>
           <ion-input [readonly]="mode == '2' || mode == '4'" [(ngModel)]="shipping_no" (click)="calculate()"></ion-input>
         </ion-item>
       </ion-col>
-
       <ion-col size="1" class="scan-btn" [hidden]="mode == '2' || mode == '4'">
         <ion-img [src]="'./assets/svg/scan.svg'" (click)="scanBarCode()"></ion-img>
       </ion-col>
-      
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+        <div id="map-view"></div>
+      </ion-col>
     </ion-row>
   </ion-grid>
 

@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class AboutPage implements OnInit {
 
   // version: any = this.appVerison.getVersionNumber();
-  versionNumber: string = "0.0.1";
+  versionNumber: string = "1.0.0";
   constructor() { }
 
   ngOnInit() {

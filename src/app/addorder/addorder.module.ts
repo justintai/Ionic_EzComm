@@ -9,6 +9,8 @@ import { AddorderPageRoutingModule } from './addorder-routing.module';
 import { AddorderPage } from './addorder.page';
 import { HMSScan } from '@hmscore/ionic-native-hms-scan/ngx';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { HMSSite } from '@hmscore/ionic-native-hms-site/ngx';
+import { HMSMap } from '@hmscore/ionic-native-hms-map/ngx';
 
 @NgModule({
   imports: [
@@ -18,6 +20,6 @@ import { FileChooser } from '@ionic-native/file-chooser/ngx';
     AddorderPageRoutingModule
   ],
   declarations: [AddorderPage],
-  providers:[HMSScan]
+  providers:[HMSScan, FileChooser, HMSSite, HMSMap]
 })
 export class AddorderPageModule {}

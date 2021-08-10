@@ -145,6 +145,8 @@ ext {
 // PLUGIN GRADLE EXTENSIONS START
 apply from: "../cordova-plugin-hms-account/ezcomm-build-extras.gradle"
 apply from: "../cordova-plugin-hms-scan/ezcomm-build-extras.gradle"
+apply from: "../cordova-plugin-hms-map/ezcomm-build-extras.gradle"
+apply from: "../cordova-plugin-hms-site/ezcomm-build-extras.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -382,6 +384,10 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "com.huawei.hms:scan:1.3.1.300"
     implementation "com.huawei.hms:stats:5.0.3.301"
+    implementation "com.huawei.hms:maps:5.2.0.302"
+    implementation "com.huawei.hms:site:5.2.0.300"
+    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 
