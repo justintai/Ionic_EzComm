@@ -175,10 +175,10 @@ export class AddorderPage implements OnInit {
       return false;
     }
 
-    if(this.qty == null) {
+    if(this.qty == null || this.qty == 0) {
       let toast = await this.toastController.create({
         mode: "ios",
-        message: "Please enter quantity of purchase.",
+        message: "Please enter quantity for purchase.",
         duration: 1000,
       });
       await toast.present();

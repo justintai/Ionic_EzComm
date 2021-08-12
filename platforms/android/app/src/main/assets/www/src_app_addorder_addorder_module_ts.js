@@ -660,10 +660,10 @@ let AddorderPage = class AddorderPage {
                 yield toast.present();
                 return false;
             }
-            if (this.qty == null) {
+            if (this.qty == null || this.qty == 0) {
                 let toast = yield this.toastController.create({
                     mode: "ios",
-                    message: "Please enter quantity of purchase.",
+                    message: "Please enter quantity for purchase.",
                     duration: 1000,
                 });
                 yield toast.present();

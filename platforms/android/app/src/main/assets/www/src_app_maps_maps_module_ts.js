@@ -128,12 +128,10 @@ let MapsPage = class MapsPage {
     ngOnInit() {
     }
     ionViewWillLeave() {
-        console.log("ionViewWillLeave: HomePage");
         if (this.map)
             this.map.hideMap();
     }
     ngOnDestroy() {
-        console.log("ngOnDestroy: HomePage");
         if (this.map)
             this.map.destroyMap();
     }

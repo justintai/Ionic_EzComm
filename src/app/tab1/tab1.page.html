@@ -36,7 +36,7 @@
       <div align="center" class="text_css" *ngIf="pending_order.length==0">
         <h1>No contents</h1>
       </div>
-      <ion-item *ngFor="let order of pending_order">
+      <ion-item *ngFor="let order of pending_order" lines="none">
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
@@ -75,7 +75,7 @@
       <div align="center" class="text_css" *ngIf="complete_order.length==0">
         <h1>No contents</h1>
       </div>
-      <ion-item *ngFor="let order of complete_order">
+      <ion-item *ngFor="let order of complete_order" lines="none">
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
@@ -120,7 +120,7 @@
       <div align="center" class="text_css" *ngIf="cancel_order.length==0">
         <h1>No contents</h1>
       </div>
-      <ion-item *ngFor="let order of cancel_order">
+      <ion-item *ngFor="let order of cancel_order" lines="none">
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
