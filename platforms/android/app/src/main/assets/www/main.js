@@ -54,7 +54,7 @@ const routes = [
     },
     {
         path: 'addorder',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_database_service_ts"), __webpack_require__.e("src_app_addorder_addorder_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./addorder/addorder.module */ 263)).then(m => m.AddorderPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_database_service_ts"), __webpack_require__.e("default-node_modules_hmscore_ionic-native-hms-site___ivy_ngcc___ngx_index_js"), __webpack_require__.e("src_app_addorder_addorder_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./addorder/addorder.module */ 263)).then(m => m.AddorderPageModule)
     },
     {
         path: 'vieworder',
@@ -62,7 +62,7 @@ const routes = [
     },
     {
         path: 'maps',
-        loadChildren: () => __webpack_require__.e(/*! import() */ "src_app_maps_maps_module_ts").then(__webpack_require__.bind(__webpack_require__, /*! ./maps/maps.module */ 3842)).then(m => m.MapsPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-node_modules_hmscore_ionic-native-hms-site___ivy_ngcc___ngx_index_js"), __webpack_require__.e("src_app_maps_maps_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./maps/maps.module */ 3842)).then(m => m.MapsPageModule)
     },
 ];
 let AppRoutingModule = class AppRoutingModule {

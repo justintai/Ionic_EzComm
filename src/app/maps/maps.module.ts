@@ -8,6 +8,9 @@ import { MapsPageRoutingModule } from './maps-routing.module';
 
 import { MapsPage } from './maps.page';
 
+import { HMSSite } from '@hmscore/ionic-native-hms-site/ngx';
+import { HMSMap } from '@hmscore/ionic-native-hms-map/ngx';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +18,7 @@ import { MapsPage } from './maps.page';
     IonicModule,
     MapsPageRoutingModule
   ],
-  declarations: [MapsPage]
+  declarations: [MapsPage],
+  providers: [HMSSite, HMSMap]
 })
 export class MapsPageModule {}

@@ -1,9 +1,12 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start" mode="ios">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Maps</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div id="map-view"></div>
+<ion-content [fullscreen]="true">
+  <div id="map-view" style="width:100%;height:100%;"></div>
 </ion-content>

@@ -66,23 +66,12 @@ ion-select, ion-datetime {
 }
 
 .scan-btn {
-ion-image {
-    width: 5px;
-    height: 5px;
-    min-width: 2px;
-    max-width: 2px;
-    max-width: 5px;
-    max-height: 5px;
+    ion-image {
+        width: 5px;
+        height: 5px;
+        min-width: 2px;
+        max-width: 2px;
+        max-width: 5px;
+        max-height: 5px;
     }
-}
-
-ion-content {
-    background-color: transparent;
-    --ion-background-color: transparent;
-}
-
-#map-view {
-    width: 80%;
-    height: 500px;
-    padding: 15px;
 }

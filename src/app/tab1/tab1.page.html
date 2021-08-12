@@ -40,25 +40,34 @@
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
-        <div style="flex-direction: columm; width: 60%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
-          <h6>Item: {{order.item_name}}</h6>
-          <span>Customer:<br/>
-            <i>&nbsp;{{order.cus_name}}</i><br/>
-            Tel:<br/>
-            <i>&nbsp;{{order.cus_tel}}</i>
-          </span>
-        </div>
-        <div style="flex-direction: columm; width: 45%;" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
-          <h6><br/></h6>
-          <span>Qty:<br/>
-            <i>&nbsp;{{order.qty}}</i><br/>
-            Amount:<br/>
-            <i>&nbsp;{{order.amount}}</i>
-          </span>
-        </div>
-        <ion-buttons slot="end">
-          <ion-button (click)="cancelOrder(order.order_id, order.items_id, order.item_stock, order.qty)"><ion-icon name="trash"></ion-icon></ion-button>
-        </ion-buttons>
+        <ion-grid>
+          <ion-row [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+            <h6>Item: {{order.item_name}}</h6>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+              <div>
+                <span>Cus:<br/>
+                  <i>&nbsp;{{order.cus_name}}</i><br/>
+                  Tel:<br/>
+                  <i>&nbsp;{{order.cus_tel}}</i>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col size="5" [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
+              <div>
+                <span>Qty:<br/>
+                  <i>&nbsp;{{order.qty}}</i><br/>
+                  Amount:<br/>
+                  <i>&nbsp;{{order.amount}}</i>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col class="icon_btn" size="1" (click)="cancelOrder(order.order_id, order.items_id, order.item_stock, order.qty)">
+              <ion-icon name="trash"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
 
@@ -72,9 +81,11 @@
         </ion-thumbnail>
         <ion-grid [routerLink]="['/addorder', { mode: 2, id: order.order_id }]">
           <ion-row>
+            <h6>Item: {{order.item_name}}</h6>
+          </ion-row>
+          <ion-row>
             <ion-col>
               <div>
-                <h6>Item: {{order.item_name}}</h6>
                 <span>Cus:<br/>
                   <i>&nbsp;{{order.cus_name}}</i><br/>
                   Tel:<br/>
@@ -84,7 +95,6 @@
             </ion-col>
             <ion-col>
               <div>
-                <h6><br></h6>
                 <span>Qty:<br/>
                   <i>&nbsp;{{order.qty}}</i><br/>
                   Amount:<br/>
@@ -114,25 +124,34 @@
         <ion-thumbnail slot="start" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
           <img [src]="order.item_img">
         </ion-thumbnail>
-        <div style="flex-direction: columm; width: 60%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
-          <h6>Item: {{order.item_name}}</h6>
-          <span>Customer:<br/>
-            <i>&nbsp;{{order.cus_name}}</i><br/>
-            Tel:<br/>
-            <i>&nbsp;{{order.cus_tel}}</i>
-          </span>
-        </div>
-        <div style="flex-direction: columm; width: 45%;" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
-          <h6><br/></h6>
-          <span>Qty:<br/>
-            <i>&nbsp;{{order.qty}}</i><br/>
-            Amount:<br/>
-            <i>&nbsp;{{order.amount}}</i>
-          </span>
-        </div>
-        <ion-buttons slot="end">
-          <ion-button (click)="undoOrder(order.order_id, order.items_id, order.item_stock, order.qty)"><ion-icon name="arrow-undo"></ion-icon></ion-button>
-        </ion-buttons>
+        <ion-grid>
+          <ion-row [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+            <h6>Item: {{order.item_name}}</h6>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+              <div>
+                <span>Cus:<br/>
+                  <i>&nbsp;{{order.cus_name}}</i><br/>
+                  Tel:<br/>
+                  <i>&nbsp;{{order.cus_tel}}</i>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col size="5" [routerLink]="['/addorder', { mode: 4, id: order.order_id }]">
+              <div>
+                <span>Qty:<br/>
+                  <i>&nbsp;{{order.qty}}</i><br/>
+                  Amount:<br/>
+                  <i>&nbsp;{{order.amount}}</i>
+                </span>
+              </div>
+            </ion-col>
+            <ion-col class="icon_btn" size="1" (click)="undoOrder(order.order_id, order.items_id, order.item_stock, order.qty)">
+              <ion-icon name="arrow-undo"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item>
     </ion-list>
   </div>

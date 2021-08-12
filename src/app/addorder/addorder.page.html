@@ -107,31 +107,39 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="12">
+      <ion-col size="12" *ngIf="mode == '1' || mode == '3' || mode == '4' || cus_address == null">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Address</ion-label>
-          <ion-textarea rows="3" [readonly]="mode == '2' || mode == '4'" [(ngModel)]="cus_address" (click)="calculate()"></ion-textarea>
+          <ion-textarea rows="3" [readonly]="mode == '4'" [(ngModel)]="cus_address" (click)="calculate()"></ion-textarea>
         </ion-item>
+      </ion-col>
+      <ion-col size="11" *ngIf="mode == '2' && cus_address != null">
+        <ion-item lines="none" class="input-border">
+          <ion-label position="stacked">Address</ion-label>
+          <ion-textarea rows="3" [readonly]="mode == '2'" [(ngModel)]="cus_address" (click)="calculate()"></ion-textarea>
+        </ion-item>
+      </ion-col>
+      <ion-col size="1" class="scan-btn" [hidden]="mode == '1' || mode == '3' || mode == '4' || cus_address == null">
+        <ion-img [src]="'./assets/svg/maps.svg'" (click)="mapsView()"></ion-img>
       </ion-col>
     </ion-row>
 
     <ion-row>
-      <ion-col size="11">
+      <ion-col size="12" *ngIf="mode == '2' || mode == '4'">
         <ion-item lines="none" class="input-border">
           <ion-label position="stacked">Shipping No.</ion-label>
           <ion-input [readonly]="mode == '2' || mode == '4'" [(ngModel)]="shipping_no" (click)="calculate()"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="11" *ngIf="mode == '3' || mode == '1'">
+        <ion-item lines="none" class="input-border">
+          <ion-label position="stacked">Shipping No.</ion-label>
+          <ion-input [(ngModel)]="shipping_no" (click)="calculate()"></ion-input>
         </ion-item>
       </ion-col>
       <ion-col size="1" class="scan-btn" [hidden]="mode == '2' || mode == '4'">
         <ion-img [src]="'./assets/svg/scan.svg'" (click)="scanBarCode()"></ion-img>
       </ion-col>
     </ion-row>
-
-    <ion-row>
-      <ion-col size="12">
-        <div id="map-view"></div>
-      </ion-col>
-    </ion-row>
   </ion-grid>
-
 </ion-content>

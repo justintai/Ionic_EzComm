@@ -13,7 +13,7 @@ import {
   QuerySuggestionRequest, QuerySuggestionResponse,
   SearchFilter, LocationType, HwLocationType
 } from '@hmscore/ionic-native-hms-site/ngx';
-import { HMSMap, CameraUpdateFactory, Color } from '@hmscore/ionic-native-hms-map/ngx';
+import { HMSMap, CameraUpdateFactory, Color, HuaweiMap, LatLng, MarkerOptions } from '@hmscore/ionic-native-hms-map/ngx';
 
 @Component({
   selector: 'app-addorder',
@@ -63,7 +63,7 @@ export class AddorderPage implements OnInit {
 
   private searchService: SearchService = null;
   private readonly apiKey = "CgB6e3x991tj6QIY2ZM0aWY9crhqEPGLCnMwH4t9LNVXgmMSQQEDTKJNGH2woZCd10QSp1425eSqpfmK3QMpOLL1";
-  mapInstance: any;
+  map: HuaweiMap;
   iniLat:any = 1.7327292;
   iniLng:any = 103.7006713;
 
@@ -83,8 +83,6 @@ export class AddorderPage implements OnInit {
       SearchServiceFactory.create(this.apiKey)
       .then(service => this.searchService = service)
       .catch(err => console.log('An error occurred.'));
-
-      this.createMap();
     }
 
   ngOnInit() {
@@ -121,7 +119,6 @@ export class AddorderPage implements OnInit {
             qty: data["qty"]
           });
       });
-      // this.locationSearch();
     }
   }
   
@@ -390,53 +387,7 @@ export class AddorderPage implements OnInit {
   }
   // #endregion scan barcode
 
-  async createMap() {
-    this.mapInstance = await this.hmsMap.getMap('map-view', {
-      zoomGesturesEnabled: true,
-      zoomControlsEnabled: true,
-      cameraPosition: {
-          target: {lat: this.iniLat, lng: this.iniLng},
-          zoom: 7
-      }
-    });
-  }
-
-  async locationSearch() {
-    console.log("text");
-    const textSearchReq: TextSearchRequest = {
-      children: false,
-      query: this.cus_address,
-      location: {
-        lat: this.iniLat,
-        lng: this.iniLng,
-      },
-      radius: 50000,
-      poiType: LocationType.ADDRESS,
-      hwPoiType: HwLocationType.ADDRESS,
-      countryCode: "MY",
-      language: "en",
-      pageIndex: 1,
-      pageSize: 5
-    };
-
-    try {
-      const response: TextSearchResponse = await this.searchService.textSearch(textSearchReq);
-
-      let sites: any = JSON.stringify(JSON.parse(JSON.stringify(response)).sites);
-
-      if(Object.keys(sites).length != 0) {
-        let cameraLocation =  JSON.parse(sites)[0].location;
- 
-        await this.mapInstance.moveCamera(CameraUpdateFactory.newCameraPosition({
-          target: {lat: cameraLocation.lat, lng: cameraLocation.lng}, zoom: 20}));
-        
-        let location =  JSON.parse(sites)[0].location;
-        await this.mapInstance.addMarker({position: {lat: location.lat, lng : location.lng}});
-      
-      }
-    }
-    catch(e) {
-      console.error('error : ' +JSON.stringify(e));
-    }
+  mapsView() {
+    this.router.navigate(["/maps", { id: this.cus_address}]);
   }
 }
